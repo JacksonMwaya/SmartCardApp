@@ -1,85 +1,85 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Component } from "react"; 
-import "../Components/Css/Login.css"
+import "../Components/Css/Login.css";
 import pic from "../Resources/Images/UDSM-logo.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lectid: "",
-      password: "",
-      access: "",
-    };
-  }
-  SignIn = () => {
-    var lectid = this.state.lectid;
-    var password = this.state.password;
+const Login = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    id: "",
+    password: "",
+  });
 
-    if (lectid.length === 0 || password.length === 0) {
-      alert("Required field is missing");
-    } else {
-      var loginAPIURL = "";
-      var headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-      var Data = {
-        lectid: lectid,
-        password: password,
-      };
-      fetch(loginAPIURL, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(Data), //Converts javascript object into JSON object
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+//remember to change id to lectId
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const loginAPIURL = `http://localhost:8000/Lecturers?id=${formData.id}&password=${formData.password}`;
+    fetch(loginAPIURL)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((response) => response.json()) //Check if response is in json
-        .then((response) => {
-          alert("message: " + response[0].Message);
-          this.setState({ access: response[0].Access });
-          if (this.state.access === true) {
-            this.props.Navigation.navigate("Home");
-          }
-        })
-        .catch((error) => {
-          alert("Error: " + error);
-        });
-      //code works when you submit information in the form
-    }
+      .then((data) => {
+        console.log(data); 
+        if(data.length > 0){
+          navigate("/Home"); 
+        }
+        else{ 
+          alert("Lecture ID or Password is Incorrect!!");
+        }
+        // do something with the response data, such as setting it to a state
+        // or redirecting to another page
+       
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  render() {
-    return (
-      <>
-        <div className="login-box"> 
-          <img src={pic} alt="How are you" className="udsm-logo" />
-          <h1 className="login-title">Login to SEDCS</h1>
-          <form>
-            <label htmlFor="lectid">Lecturer ID</label>
-            <input
-              type="text"
-              onChange={(lectid) => this.setState({ lectid })}
-              name="lectid"
-              placeholder="2020144002134"
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              onChange={(password) => this.setState({ password })}
-              name="password"
-              placeholder="Enter Password"
-            />
-            <button onClick={this.SignIn} className="submit" type="submit">
-              Log In
-            </button>
-          </form>
+  return (
+    <>
+      <div className="login-box">
+        <img src={pic} alt="How are you" className="udsm-logo" />
+        <h1 className="login-title">Login to SEDCS</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="lectId">Lecture ID:</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            value={formData.id}
+            onChange={handleInputChange}
+            required
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+          <button type="submit" className="submit">Login</button>
           <button className="link-button">
             <Link to="/Register">Don't have an account? Register here.</Link>
           </button>
-        </div>
-      </>
-      // you put a fragment since they are more than one element
-    );
-  }
-}
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default Login;
+

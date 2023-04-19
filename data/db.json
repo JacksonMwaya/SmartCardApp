@@ -1,0 +1,49 @@
+{
+  "Lecturers": [
+    {
+      "fName": "",
+      "lName": "",
+      "email": "",
+      "phoneNo": "",
+      "deptCode": "",
+      "password": "",
+      "id": ""
+    },
+    {
+      "fName": "Jackson",
+      "lName": "Mwaya",
+      "email": "jackjimmy602@gmail.com",
+      "phoneNo": "0766830896",
+      "deptCode": "100",
+      "password": "jacksonmwaya",
+      "id": "1001"
+    },
+    {
+      "fName": "Emmanuel",
+      "lName": "Kessy",
+      "email": "emmakessy@gmail.com",
+      "phoneNo": "0623719779",
+      "deptCode": "100",
+      "password": "emmakessy",
+      "id": "1002"
+    },
+    {
+      "fName": "Calvince",
+      "lName": "Ogigo",
+      "email": "calvinceogigo@gmail.com",
+      "phoneNo": "0628705750",
+      "deptCode": "100",
+      "password": "calvinceogigo",
+      "id": "1003"
+    },
+    {
+      "fName": "Saroni",
+      "lName": "Saitoria",
+      "email": "saronisaitoria@gmail.com",
+      "phoneNo": "0629161682",
+      "deptCode": "100",
+      "password": "saronisaitoria",
+      "id": "1004"
+    }
+  ]
+}

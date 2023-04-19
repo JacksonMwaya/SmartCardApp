@@ -1,142 +1,156 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Component } from "react"; 
-import "../Components/Css/Register.css"
+import "../Components/Css/Register.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lectid: "",
-      password: "",
-      fname: "",
-      lname: "",
-      email: "",
-      phoneNo: "",
-      deptcode: "",
-      access: "",
-    };
-  }
+//remember to change id to lectId
 
-  SignUp = () => {
-    var lectid = this.state.lectid;
-    var password = this.state.password;
-    var fname = this.state.fname;
-    var lname = this.state.lname;
-    var email = this.state.email;
-    var phoneNo = this.state.phoneNo;
-    var deptcode = this.state.deptcode;
+const Register = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fName: "",
+    lName: "",
+    email: "",
+    phoneNo: "",
+    deptCode: "",
+    password: "",
+    id: "",
+  });
 
-    if (
-      lectid.length === 0 ||
-      password.length === 0 ||
-      phoneNo.length === 0 ||
-      deptcode.length === 0 ||
-      fname.length === 0 ||
-      lname.length === 0 ||
-      email.length === 0
-    ) {
-      alert("Required field is missing");
-    } else {
-      var registerAPIURL = "";
-      var headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-      var Data = {
-        lectid: lectid,
-        password: password,
-        email: email,
-        fname: fname,
-        lname: lname,
-        phoneNo: phoneNo,
-        deptcode: deptcode,
-      };
-      fetch(registerAPIURL, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(Data), //Converts javascript object into JSON object
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const checkIfLecturerExists = (id) => {
+    const apiUrl = `http://localhost:8000/Lecturers?id=${formData.id}`;
+    return fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.length > 0;
       })
-        .then((response) => response.json()) //Check if response is in json
-        .then((response) => {
-          alert("message: " + response[0].Message);
-          this.setState({ access: response[0].Access });
-          if (this.state.access === true) {
-            this.props.Navigation.navigate("Home");
-          }
-        })
-        .catch((error) => {
-          alert("Error: " + error);
-        });
-      //code works when you submit information in the form
-    }
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  render() {
-    return (
-      <>
-        <div className="registration-box">
-          <h1 className="register-title">Register to SEDCS</h1>
-          <form>
-            <label htmlFor="fname">First Name</label>
-            <input
-              type="text"
-              onChange={(fname) => this.setState({ fname })}
-              name="firstname"
-              placeholder="Enter First Name"
-            />
-            <label htmlFor="lname">Last Name</label>
-            <input
-              type="text"
-              onChange={(fname) => this.setState({ fname })}
-              name="lastname"
-              placeholder="Enter Last Name"
-            />
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              onChange={(email) => this.setState({ email })}
-              name="email"
-              placeholder="Enter Email"
-            />
-            <label htmlFor="phoneNo">Phone Number</label>
-            <input
-              type="tel"
-              onChange={(phoneNo) => this.setState({ phoneNo })}
-              name="phone"
-              placeholder="Enter Phone Number"
-            />
-            <label htmlFor="deptcode">Department Code</label>
-            <input
-              type="text"
-              onChange={(deptcode) => this.setState({ deptcode })}
-              name="deptcode"
-              placeholder="Enter Department Code"
-            />
-            <label htmlFor="lectid">Lecture ID</label>
-            <input
-              type="text"
-              onChange={(lectid) => this.setState({ lectid })}
-              name="lectureid"
-              placeholder="Enter Lecture ID"
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              onChange={(password) => this.setState({ password })}
-              name="password"
-              placeholder="Enter Password"
-            />
-            <button onClick={this.SignUp} className="submit" type="submit">
-              Register
-            </button>
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const registerAPIURL = "http://localhost:8000/Lecturers";
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+    fetch(registerAPIURL, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(formData),
+    })
+      .then(checkIfLecturerExists(formData.id))
+      .then((response) => {
+        if (!response.ok) {
+          alert("This lecture exists");
+          throw new Error("Network response was not ok");
+        } else {
+          navigate("/Login");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-            <button className="link-button">
-              <Link to="/">Already have an account? Login here.</Link>
-            </button>
-          </form>
-        </div>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <div className="registration-box">
+        <form onSubmit={handleSubmit}>
+          <h1 className="register-title">Register to SEDCS</h1>
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="fName"
+            name="fName"
+            value={formData.fName}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lName"
+            name="lName"
+            value={formData.lName}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="phone Number">Phone No:</label>
+          <input
+            type="tel"
+            id="phoneNo"
+            name="phoneNo"
+            value={formData.phoneNo}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="Department Code">Department Code:</label>
+          <input
+            type="text"
+            id="deptCode"
+            name="deptCode"
+            value={formData.deptCode}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="Lecture ID">Lecture ID:</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            value={formData.id}
+            onChange={handleInputChange}
+            required
+          />
+
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+          <button type="submit" className="submit">
+            Register
+          </button>
+          <button className="link-button">
+            <Link to="/Login">Already have an account? Login here.</Link>
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default Register;
