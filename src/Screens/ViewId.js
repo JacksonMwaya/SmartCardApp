@@ -1,7 +1,12 @@
-import React from 'react'
+import React from "react";
+import SideNav from "../Components/SideNav";
+import Footer from "../Components/Footer";
 
 export default function ViewId() {
   return (
-    <div>ViewId</div>
-  )
+    <div>
+      <SideNav />
+      <Footer />
+    </div>
+  );
 }

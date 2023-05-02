@@ -24,7 +24,7 @@
       "email": "emmakessy@gmail.com",
       "phoneNo": "0623719779",
       "deptCode": "100",
-      "password": "emmakessy",
+      "password": "emmanuelkessy",
       "id": "1002"
     },
     {
@@ -44,6 +44,24 @@
       "deptCode": "100",
       "password": "saronisaitoria",
       "id": "1004"
+    },
+    {
+      "fName": "Phillip",
+      "lName": "Hugo",
+      "email": "philliphugo@gmail.com",
+      "phoneNo": "0712345678",
+      "deptCode": "100",
+      "password": "philliphugo",
+      "id": "1006"
+    },
+    {
+      "fName": "Daniel",
+      "lName": "Msangi",
+      "email": "danielmsangi@gmail.com",
+      "phoneNo": "0766123456",
+      "deptCode": "100",
+      "password": "danielmsangi",
+      "id": "1007"
     }
   ]
 }
