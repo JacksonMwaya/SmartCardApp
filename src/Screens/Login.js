@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import "../Components/Css/Login.css";
 import pic from "../Resources/Images/UDSM-logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState } from "react"; 
+
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ const Login = () => {
       [name]: value,
     });
   };
-//remember to change id to lectId
+  //remember to change id to lectId
   const handleSubmit = (event) => {
     event.preventDefault();
     const loginAPIURL = `http://localhost:8000/Lecturers?id=${formData.id}&password=${formData.password}`;
@@ -31,16 +33,14 @@ const Login = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data); 
-        if(data.length > 0){
-          navigate("/Home"); 
-        }
-        else{ 
+        console.log(data);
+        if (data.length > 0) { 
+          navigate("/Home");
+        } else {
           alert("Lecture ID or Password is Incorrect!!");
         }
         // do something with the response data, such as setting it to a state
         // or redirecting to another page
-       
       })
       .catch((error) => {
         console.error(error);
@@ -71,7 +71,9 @@ const Login = () => {
             onChange={handleInputChange}
             required
           />
-          <button type="submit" className="submit">Login</button>
+          <button type="submit" className="submit">
+            Login
+          </button>
           <button className="link-button">
             <Link to="/Register">Don't have an account? Register here.</Link>
           </button>
@@ -82,4 +84,3 @@ const Login = () => {
 };
 
 export default Login;
-

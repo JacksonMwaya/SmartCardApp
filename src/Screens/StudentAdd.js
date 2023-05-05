@@ -1,11 +1,14 @@
 import React from "react";
 import SideNav from "../Components/SideNav";
-import Footer from "../Components/Footer";
+import Footer from "../Components/Footer"; 
+import Header from '../Components/Header'
 
-function StudentAdd() {
+function StudentAdd() { 
+
   return (
     <div>
-      <SideNav />
+      <SideNav />  
+      <Header />
       <Footer />
     </div>
   );

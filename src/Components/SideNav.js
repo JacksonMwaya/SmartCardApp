@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles, 
-  Typography, 
-
+  Divider,
+  Typography,
+  IconButton,
+  useMediaQuery,
 } from "@material-ui/core";
-import Divider from '@mui/material/Divider';
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp"; 
-import { useNavigate } from "react-router-dom"; 
+import {
+  Home as HomeIcon,
+  Person as PersonIcon,
+  ListAlt as ListAltIcon,
+  Assignment as AssignmentIcon,
+  ExitToApp as ExitToAppIcon,
+  Menu as MenuIcon,
+} from "@material-ui/icons";
 
 const drawerWidth = 240;
 
@@ -24,67 +28,103 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up("xs")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
   drawerPaper: {
     width: drawerWidth,
-  },   
+  },
   toolbar: {
-    textAlign: "center", // center the typography
-    padding: theme.spacing(2), // add some padding
-  }, 
+    textAlign: "center",
+    padding: theme.spacing(2),
+  },
   selected: {
     backgroundColor: theme.palette.action.selected,
     "&:hover": {
       backgroundColor: theme.palette.action.hover,
-    }, 
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },  
+    paddingLeft: theme.spacing(2),
+    zIndex: 9999 // set a high z-index value to make it appear on top 
+
   },
 }));
 
-const SideNav = () => { 
+const SideNav = () => {
   const navigate = useNavigate();
   const classes = useStyles();
+  const [isAuthenticated, setIsAuthenticated] = useState("Yes");
   const [selectedPage, setSelectedPage] = useState("Home");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handlePageChange = (page) => {
-    setSelectedPage(page);  
-    navigate("/" + page);
-
+    if (page === "Login") {
+      handleLogout();
+    } else {
+      setIsAuthenticated("Yes");
+      setSelectedPage(page);
+      navigate("/" + page);
+    }
   };
 
-  return (
-    <div className={classes.root}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.toolbar} >  
-        <Typography variant="h4" fontWeight="bold" fontFamily="Roboto">SEDCS</Typography>
-        </div> 
-        <Divider />
-        <List>
-          <ListItem
-            button
-            selected={selectedPage === "Home"}
-            onClick={() => handlePageChange("Home")}  
-            style={{ background: "none" }}
-            classes={{
-              selected: classes.selected,
-            }}
-          >
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem
+  const handleLogout = () => {
+    setIsAuthenticated("No");
+    setSelectedPage("Login");
+    navigate("/Login");
+  };
+
+  useEffect(() => {
+    const handlePopstate = () => {
+      if (isAuthenticated === "No") {
+        window.history.pushState(null, "", "/Login");
+        navigate("/Login");
+      }
+    };
+    window.addEventListener("popstate", handlePopstate);
+    return () => window.removeEventListener("popstate", handlePopstate);
+  }, [isAuthenticated, navigate]);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const drawerContent = (
+    <div>
+      <div className={classes.toolbar}>
+        <Typography variant="h4" fontWeight="bold" fontFamily="Roboto">
+          SEDCS
+        </Typography>
+      </div>
+      <Divider />
+      <List>
+        <ListItem
+          button
+          selected={selectedPage === "Home"}
+          onClick={() => handlePageChange("Home")}
+          style={{ background: "none" }}
+          classes={{
+            selected: classes.selected,
+          }}
+        >
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem
             button
             selected={selectedPage === "Registration"}
-            onClick={() => handlePageChange("StudentAdd")} 
+            onClick={() => handlePageChange("StudentAdd")}
             classes={{
               selected: classes.selected,
             }}
@@ -97,7 +137,7 @@ const SideNav = () => {
           <ListItem
             button
             selected={selectedPage === "View ID"}
-            onClick={() => handlePageChange("ViewId")} 
+            onClick={() => handlePageChange("ViewId")}
             classes={{
               selected: classes.selected,
             }}
@@ -110,7 +150,7 @@ const SideNav = () => {
           <ListItem
             button
             selected={selectedPage === "Reports"}
-            onClick={() => handlePageChange("ViewReport")} 
+            onClick={() => handlePageChange("ViewReport")}
             classes={{
               selected: classes.selected,
             }}
@@ -120,25 +160,55 @@ const SideNav = () => {
             </ListItemIcon>
             <ListItemText primary="Reports" />
           </ListItem>
-          <ListItem
-            button
-            selected={selectedPage === "Logout"}
-            onClick={() => handlePageChange("Login")}  
-            classes={{
-              selected: classes.selected,
-            }}
-          >
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </List>
-      </Drawer> 
+</List>
+      <Divider />
+      <List>
+        <ListItem
+          button
+          onClick={() => handlePageChange("Login")}
+          classes={{
+            selected: classes.selected,
+          }}
+        >
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        color="white"
+        aria-label="open drawer"
+        edge="start"
+        onClick={handleDrawerToggle}
+        className={classes.menuButton}
+      >
+        <MenuIcon />
+      </IconButton>
+      <nav className={classes.drawer} aria-label="side navigation">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Drawer
+          variant={isMobile ? "temporary" : "persistent"}
+          anchor="left"
+          open={isMobile ? isDrawerOpen : true}
+          onClose={handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      </nav>
     </div>
   );
 };
 
 export default SideNav;
-
-

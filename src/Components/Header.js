@@ -1,35 +1,93 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Avatar } from '@material-ui/core';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  useMediaQuery,
+} from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from "./theme";
+import { useNavigate } from "react-router";
+
+const drawerWidth = 240; 
+
 
 const useStyles = makeStyles((theme) => ({
-  header: {
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
+  root: {
+    flexGrow: 1,
   },
   title: {
     flexGrow: 1,
+    paddingLeft: theme.spacing(2),
   },
-  avatar: {
-    marginLeft: theme.spacing(1),
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      marginLeft: 0,
+    }, 
+  }, 
+  user: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: theme.spacing(2),
   },
 }));
 
-function Header(props) {
+const Header = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handlePageChange = (page) => {
+    navigate("/" + page);
+  };
 
   return (
-    <AppBar position="static" className={classes.header}>
-      <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          Student Examination Data Card System
-        </Typography>
-        <Avatar className={classes.avatar}>{props.fname.charAt(0)}</Avatar>
-        <Typography variant="subtitle1">{props.fname}</Typography>
-      </Toolbar>
-    </AppBar>
+    <ThemeProvider theme={theme}>
+          {isMobile ? (
+            <> 
+         <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                SEDCS
+              </Typography>
+              <IconButton
+                color="inherit"
+                onClick={() => handlePageChange("Home")}
+              >
+                <AccountCircle />
+              </IconButton> 
+              </Toolbar>
+      </AppBar>
+            </>
+          ) : (
+            <> 
+                     <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                STUDENT EXAMINATION DATA CARD SYSTEM
+              </Typography>
+              <div className={classes.user}>
+                <Typography variant="subtitle1">Staff ID: 1001</Typography>
+                <IconButton
+                  color="inherit"
+                  onClick={() => handlePageChange("Home")}
+                >
+                  <AccountCircle />
+                </IconButton>
+              </div>  
+              </Toolbar>
+      </AppBar>
+            </>
+          )}
+
+    </ThemeProvider>
   );
-}
+};
 
 export default Header;
-
