@@ -1,0 +1,34 @@
+{
+  "Students": [
+    {
+      "firstName": "",
+      "lastName": "",
+      "registrationNumber": "",
+      "programme": "",
+      "gender": "",
+      "semester1paid": "",
+      "semester2paid": "",
+      "id": 1000
+    },
+    {
+      "firstName": "phillip",
+      "lastName": "hugo",
+      "id": 1001,
+      "registrationNumber": "2019-04-02512",
+      "programme": "CEIT",
+      "gender": "male",
+      "semester1paid": true,
+      "semester2paid": true
+    },
+    {
+      "firstName": "jack",
+      "lastName": "mimi",
+      "id": 1002,
+      "registrationNumber": "2019",
+      "programme": "CEIT",
+      "gender": "male",
+      "semester1paid": true,
+      "semester2paid": false
+    }
+  ]
+}

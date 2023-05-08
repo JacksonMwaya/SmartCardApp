@@ -6,7 +6,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
+  ListItemText, 
   Divider,
   Typography,
   IconButton,
@@ -17,7 +17,8 @@ import {
   Person as PersonIcon,
   ListAlt as ListAltIcon,
   Assignment as AssignmentIcon,
-  ExitToApp as ExitToAppIcon,
+  ExitToApp as ExitToAppIcon, 
+  Update,
   Menu as MenuIcon,
 } from "@material-ui/icons";
 
@@ -51,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "none",
     },  
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(2),  
+    position: "fixed", 
     zIndex: 9999 // set a high z-index value to make it appear on top 
 
   },
@@ -121,7 +123,7 @@ const SideNav = () => {
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem
+          <ListItem
             button
             selected={selectedPage === "Registration"}
             onClick={() => handlePageChange("StudentAdd")}
@@ -133,7 +135,20 @@ const SideNav = () => {
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Registration" />
-          </ListItem>
+          </ListItem> 
+          <ListItem
+            button
+            selected={selectedPage === "Update"}
+            onClick={() => handlePageChange("UpdatePage")}
+            classes={{
+              selected: classes.selected,
+            }}
+          >
+            <ListItemIcon>
+              <Update />
+            </ListItemIcon>
+            <ListItemText primary="Update" />
+          </ListItem> 
           <ListItem
             button
             selected={selectedPage === "View ID"}
