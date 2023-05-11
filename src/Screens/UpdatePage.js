@@ -1,7 +1,7 @@
 import React from 'react' 
 import Header from '../Components/Header' 
 import SideNav from '../Components/SideNav' 
-import UpdateInfo from '../Components/UpdateInfo' 
+import UpdateForm from '../Components/UpdateForm' 
 import Footer from '../Components/Footer'
 
 export default function  UpdatePage() {
@@ -9,7 +9,7 @@ export default function  UpdatePage() {
     <div>  
      <SideNav />  
       <Header /> 
-      <UpdateInfo />
+      <UpdateForm />
       <Footer />
     </div>
   )

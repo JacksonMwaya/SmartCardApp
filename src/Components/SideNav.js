@@ -79,6 +79,15 @@ const SideNav = () => {
   const handleLogout = () => {
     setIsAuthenticated("No");
     setSelectedPage("Login");
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
+    navigate("/Login"); 
     navigate("/Login");
   };
 

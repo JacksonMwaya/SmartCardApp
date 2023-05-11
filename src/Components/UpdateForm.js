@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import {
   makeStyles,
   TextField,
@@ -7,7 +7,7 @@ import {
   Paper,
   FormControlLabel,
   Checkbox,
-  Typography
+  Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,16 +36,17 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 400,
       marginRight: 400,
     },
-  }, 
-  title: {   
+  },
+  title: {
     paddingLeft: 350,
-    alignItems: "center",
-    justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+      paddingLeft: 30,
+    },
   },
   form: {
     maxWidth: 1000,
-    padding: 10, 
-    
+    padding: 10,
   },
 }));
 
@@ -57,17 +58,17 @@ const RegisterForm = () => {
   const clearForm = () => {
     setId("");
     setSemester2Paid(false);
-  }; 
+  };
 
   const handleSemester2PaidChange = (event) => {
     setSemester2Paid(event.target.checked);
-  }; 
+  };
 
   const handleIdChange = (event) => {
     setId(event.target.value);
   };
 
-  const handleUpdate = (event) => {  
+  const handleUpdate = (event) => {
     const updateAPIURL = `http://localhost:8001/Students/${id}`;
     event.preventDefault();
     // Send data to the server
@@ -75,66 +76,65 @@ const RegisterForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       body: JSON.stringify({
         semester2paid: semester2paid,
       }),
-    }) 
+    })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); 
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
-      }); 
+      });
     clearForm();
   };
-  
-  return (     
-    <div className={classes.formContainer}>
-    <Paper className={classes.form}>
-      <form onSubmit={handleUpdate}>
-        <Grid container spacing={2}> 
-        <Typography variant="h6" className={classes.title}>
-                UPDATE STUDENT INFORMATION
-              </Typography>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              required
-              label="Card Number"
-              variant="standard"
-              size="small"
-              value={id}
-              onChange={handleIdChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={semester2paid}
-                  onChange={handleSemester2PaidChange}
-                />
-              }
-              label="Semester 2 Paid"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Update
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
-  </div> 
 
+  return (
+    <div className={classes.formContainer}>
+      <Paper className={classes.form}>
+        <form onSubmit={handleUpdate}>
+          <Grid container spacing={2}>
+            <Typography variant="h6" className={classes.title} align="center">
+              UPDATE STUDENT INFORMATION
+            </Typography>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Card Number"
+                variant="standard"
+                size="small"
+                value={id}
+                onChange={handleIdChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={semester2paid}
+                    onChange={handleSemester2PaidChange}
+                  />
+                }
+                label="Semester 2 Paid"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Update
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </div>
   );
 };
 

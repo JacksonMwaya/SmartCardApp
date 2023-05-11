@@ -29,6 +29,16 @@
       "gender": "male",
       "semester1paid": true,
       "semester2paid": false
+    },
+    {
+      "firstName": "j",
+      "lastName": "mwa",
+      "id": "12032",
+      "registrationNumber": "1230",
+      "programme": "ceit",
+      "gender": "male",
+      "semester1paid": true,
+      "semester2paid": false
     }
   ]
 }

@@ -41,10 +41,12 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 400,
     },
   }, 
-  title: {   
+  title: {
     paddingLeft: 350,
-    alignItems: "center",
-    justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center", 
+      paddingLeft: 30,
+    },
   },
   form: {
     maxWidth: 1000,
