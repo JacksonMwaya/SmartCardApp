@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import {
   makeStyles,
   TextField,
@@ -10,8 +10,8 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel, 
-  Typography
+  InputLabel,
+  Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,32 +40,31 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 400,
       marginRight: 400,
     },
-  }, 
+  },
   title: {
     paddingLeft: 350,
     [theme.breakpoints.down("sm")]: {
-      textAlign: "center", 
+      textAlign: "center",
       paddingLeft: 30,
     },
   },
   form: {
     maxWidth: 1000,
-    padding: 10, 
-    
+    padding: 10,
   },
 }));
 
 const RegisterForm = () => {
-  const classes = useStyles(); 
+  const classes = useStyles();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [id, setId] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [programme, setProgramme] = useState("");
-  const [gender, setGender] = useState(""); 
-  const [year, setYear] = useState("");
-  const [semester1paid, setSemester1Paid] = useState(false);
-  const [semester2paid, setSemester2Paid] = useState(false);
+  const [gender, setGender] = useState("male");
+  const [year, setYear] = useState("1");
+  const [semester1paid, setSemester1Paid] = useState(0);
+  const [semester2paid, setSemester2Paid] = useState(0);
 
   const clearForm = () => {
     setFirstName("");
@@ -73,26 +72,28 @@ const RegisterForm = () => {
     setId("");
     setRegistrationNumber("");
     setProgramme("");
-    setGender(""); 
+    setGender("");
     setYear("");
-    setSemester1Paid(false);
-    setSemester2Paid(false);
-  }; 
+    setSemester1Paid("");
+    setSemester2Paid("");
+  };
   const handleYearChange = (event) => {
     setYear(event.target.value);
+  };
+
+  const handleSemester1PaidChange = (event) => {
+    const checked = event.target.checked;
+    const bitValue = checked ? 1 : 0;
+    setSemester1Paid(bitValue);
+  };
+  const handleSemester2PaidChange = (event) => {
+    const checked = event.target.checked;
+    const bitValue = checked ? 1 : 0;
+    setSemester2Paid(bitValue);
   };
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
-
-  const handleSemester1PaidChange = (event) => {
-    setSemester1Paid(event.target.checked);
-  };
-  const handleSemester2PaidChange = (event) => {
-    setSemester2Paid(event.target.checked);
-  }; 
-
-
 
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
@@ -113,7 +114,7 @@ const RegisterForm = () => {
     setProgramme(event.target.value);
   };
 
-  const handleSubmit = (event) => {  
+  const handleSubmit = (event) => {
     const registerAPIURL = "http://localhost:8001/Students";
     event.preventDefault();
     // Send data to the server
@@ -121,7 +122,7 @@ const RegisterForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       //remember to change id to card number in the real database
       body: JSON.stringify({
         firstName: firstName,
@@ -129,30 +130,30 @@ const RegisterForm = () => {
         id: id,
         registrationNumber: registrationNumber,
         programme: programme,
+        year: year,
         gender: gender,
         semester1paid: semester1paid,
         semester2paid: semester2paid,
       }),
-    }) 
+    })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); 
-        
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
-      }); 
-     clearForm();
+      });
+    clearForm();
   };
 
-  return ( 
+  return (
     <div className={classes.formContainer}>
       <Paper className={classes.form}>
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}> 
-          <Typography variant="h6" className={classes.title}>
-                REGISTER STUDENT INFORMATION
-              </Typography>
+          <Grid container spacing={2}>
+            <Typography variant="h6" className={classes.title}>
+              REGISTER STUDENT INFORMATION
+            </Typography>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -163,7 +164,7 @@ const RegisterForm = () => {
                 value={id}
                 onChange={handleIdChange}
               />
-            </Grid> 
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -207,7 +208,7 @@ const RegisterForm = () => {
                 value={programme}
                 onChange={handleProgrammeChange}
               />
-            </Grid> 
+            </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth required variant="standard" size="small">
                 <InputLabel id="year-label">Year of Study</InputLabel>
@@ -218,7 +219,7 @@ const RegisterForm = () => {
                 >
                   <MenuItem value="1">1</MenuItem>
                   <MenuItem value="2">2</MenuItem>
-                  <MenuItem value="3">3</MenuItem> 
+                  <MenuItem value="3">3</MenuItem>
                   <MenuItem value="4">4</MenuItem>
                 </Select>
               </FormControl>
@@ -272,8 +273,7 @@ const RegisterForm = () => {
           </Grid>
         </form>
       </Paper>
-    </div>  
-    
+    </div>
   );
 };
 

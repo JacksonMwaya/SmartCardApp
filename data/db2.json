@@ -6,6 +6,7 @@
       "registrationNumber": "",
       "programme": "",
       "gender": "",
+      "year": "",
       "semester1paid": "",
       "semester2paid": "",
       "id": 1000
@@ -39,6 +40,68 @@
       "gender": "male",
       "semester1paid": true,
       "semester2paid": false
+    },
+    {
+      "firstName": "jac",
+      "lastName": "ca cam",
+      "id": "qre",
+      "registrationNumber": "a109kc",
+      "programme": " di msk",
+      "gender": 0,
+      "semester1paid": 1,
+      "semester2paid": 0
+    },
+    {
+      "firstName": "naca",
+      "lastName": "jac,nca",
+      "id": "qcbhkj",
+      "registrationNumber": "a,jncm",
+      "programme": "cansmkc",
+      "gender": 0,
+      "semester1paid": "",
+      "semester2paid": " "
+    },
+    {
+      "firstName": "janan",
+      "lastName": ",nbc",
+      "id": "vq fnqmc",
+      "registrationNumber": "qdfnq",
+      "programme": "afcq",
+      "gender": 1,
+      "semester1paid": 1,
+      "semester2paid": false
+    },
+    {
+      "firstName": "avbnam",
+      "lastName": "an vam",
+      "id": "ambcv nac",
+      "registrationNumber": "a,c mv",
+      "programme": "ceit",
+      "gender": 1,
+      "semester1paid": 1,
+      "semester2paid": 0
+    },
+    {
+      "firstName": "gvbnm",
+      "lastName": "cvbnm",
+      "id": "qqwerty",
+      "registrationNumber": "gjvbnm",
+      "programme": "vdfgh",
+      "year": "2",
+      "gender": "male",
+      "semester1paid": 1,
+      "semester2paid": false
+    },
+    {
+      "firstName": "qwertt",
+      "lastName": "fdgvh",
+      "id": "xfcgvbnm",
+      "registrationNumber": "qwerty",
+      "programme": "ceit",
+      "year": "2",
+      "gender": "male",
+      "semester1paid": 1,
+      "semester2paid": 0
     }
   ]
 }

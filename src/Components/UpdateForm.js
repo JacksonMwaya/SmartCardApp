@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterForm = () => {
   const classes = useStyles();
   const [id, setId] = useState("");
-  const [semester2paid, setSemester2Paid] = useState(false);
+  const [semester2paid, setSemester2Paid] = useState(0);
 
   const clearForm = () => {
     setId("");
@@ -61,7 +61,9 @@ const RegisterForm = () => {
   };
 
   const handleSemester2PaidChange = (event) => {
-    setSemester2Paid(event.target.checked);
+    const checked = event.target.checked;
+    const bitValue = checked ? 1 : 0;
+    setSemester2Paid(bitValue);
   };
 
   const handleIdChange = (event) => {
