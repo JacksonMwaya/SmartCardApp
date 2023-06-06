@@ -61,7 +61,8 @@ const RegisterForm = () => {
   const [id, setId] = useState("");  
   //const [cardNo, setCardNo] = useState(""); 
   const [registrationNumber, setRegistrationNumber] = useState("");
-  const [programme, setProgramme] = useState("");
+  const [programme, setProgramme] = useState(""); 
+  const [college, setCollege] = useState(""); 
   const [gender, setGender] = useState("male");
   const [year, setYear] = useState("1");
   const [semester1paid, setSemester1Paid] = useState(0);
@@ -81,6 +82,9 @@ const RegisterForm = () => {
   };
   const handleYearChange = (event) => {
     setYear(event.target.value);
+  }; 
+  const handleCollegeChange = (event) => {
+    setCollege(event.target.value);
   };
 
   const handleSemester1PaidChange = (event) => {
@@ -132,7 +136,8 @@ const RegisterForm = () => {
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        id: id, 
+        id: id,  
+        college:college,
        //cardNo: cardNo,
         registrationNumber: registrationNumber,
         programme: programme,
@@ -202,6 +207,17 @@ const RegisterForm = () => {
                 size="small"
                 value={registrationNumber}
                 onChange={handleRegistrationNumberChange}
+              />
+            </Grid> 
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="College"
+                variant="standard"
+                size="small"
+                value={college}
+                onChange={handleCollegeChange}
               />
             </Grid>
             <Grid item xs={12}>
