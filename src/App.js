@@ -9,8 +9,10 @@ import "@fontsource/roboto/700.css";
 import StudentAdd from "./Screens/StudentAdd";
 import ViewId from "./Screens/ViewId";
 import ViewReport from "./Screens/ViewReport";
-import SuperPage from "./Screens/TeachersPage"; 
-import UpdatePage from "./Screens/UpdatePage"; 
+import UpdatePage from "./Screens/UpdatePage";  
+import Home2 from "./Screens/Teachers/Home2";
+import ViewId2 from "./Screens/Teachers/ViewReport2";
+import ViewReport2 from "./Screens/Teachers/ViewReport2";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Screens/Home";
 
@@ -27,10 +29,12 @@ function App() {
           <Route path="/StudentAdd" element={<StudentAdd />} />
           <Route path="/ViewId" element={<ViewId />} />
           <Route path="/ViewReport" element={<ViewReport />} />
-          <Route path="/SuperPage" element={<SuperPage />} /> 
-          <Route path="/UpdatePage" element={<UpdatePage />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/UpdatePage" element={<UpdatePage />} /> 
           <Route path="/Home" element={<Home />} />
+          <Route path="/Login" element={<Login />} /> 
+          <Route path="/Teachers/Home2" element={<Home2 />} /> 
+          <Route path="/Teachers/ViewId2" element={<ViewId2 />} /> 
+          <Route path="/Teachers/ViewReport2" element={<ViewReport2 />} />
         </Routes>
     </Router>
   );

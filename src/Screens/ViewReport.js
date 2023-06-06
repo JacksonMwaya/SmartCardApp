@@ -18,9 +18,13 @@ export default function ViewReport() {
         });
         const data = await response.json();
 
-        if (data.status === 'error') {
+        if (data.message === 'User not logged in') {
           // User is not logged in, redirect to the login page
           navigate('/login');
+        } 
+        if (data.message === 'User not logged in') {
+          // User is not logged in, redirect to the login page
+          navigate('/');
         }
       } catch (error) {
         console.error(error);

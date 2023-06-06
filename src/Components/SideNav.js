@@ -75,7 +75,7 @@ const SideNav = () => {
   };
 
   const handleLogout = () => {
-    setSelectedPage("Login");
+    setSelectedPage("Login"); 
     navigate("/Login"); 
     navigate("/Login"); 
     navigate("/Login"); 

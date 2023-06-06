@@ -20,10 +20,15 @@ export default function  UpdatePage() {
         });
         const data = await response.json();
 
-        if (data.status === 'error') {
+        if (data.message === 'User not logged in') {
           // User is not logged in, redirect to the login page
           navigate('/login');
-        }
+        } 
+        if (data.message === 'Unauthorized access') {
+          // only admin can access this page
+          navigate('/Teachers/Home2');
+        } 
+
       } catch (error) {
         console.error(error);
       }
