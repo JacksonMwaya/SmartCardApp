@@ -10,7 +10,8 @@ import { useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    id: "",
+    id: "", 
+    //lecturer_id: "",
     password: "",
   });
 
@@ -24,7 +25,7 @@ const Login = () => {
   //remember to change id to lectId
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginAPIURL = `http://localhost:8000/Lecturers?id=${formData.id}&password=${formData.password}`;
+    const loginAPIURL = `http://localhost:8000/Lecturers?id=${formData.id}&password=${formData.password}`; //?lecturer_id = ${formData.lecture_id}&password=${formData.password}
     fetch(loginAPIURL)
       .then((response) => {
         if (!response.ok) {
@@ -56,10 +57,10 @@ const Login = () => {
           <label htmlFor="lectId">Lecture ID:</label>
           <input
             type="text"
-            id="id"
-            name="id"
-            value={formData.id}
-            onChange={handleInputChange}
+            id="id" //"lecturer_id"
+            name="id" //"lecturer_id"
+            value={formData.id} //{formData.lecturer_id}
+            onChange={handleInputChange} //{handleInputChange}
             required
           />
           <label htmlFor="password">Password:</label>

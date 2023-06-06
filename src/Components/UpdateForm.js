@@ -52,10 +52,12 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = () => {
   const classes = useStyles();
-  const [id, setId] = useState("");
+  const [id, setId] = useState(""); 
+  //const [registrationNumber, setRegistrationNumber] = useState("");
   const [semester2paid, setSemester2Paid] = useState(0);
 
-  const clearForm = () => {
+  const clearForm = () => { 
+    //setRegistrationNumber("");
     setId("");
     setSemester2Paid(false);
   };
@@ -68,10 +70,15 @@ const RegisterForm = () => {
 
   const handleIdChange = (event) => {
     setId(event.target.value);
-  };
+  };  
+
+  /*const handleRegistrationNumberChange = (event) => {
+    setRegistrationNumber(event.target.value);
+  }; */
+ 
 
   const handleUpdate = (event) => {
-    const updateAPIURL = `http://localhost:8001/Students/${id}`;
+    const updateAPIURL = `http://localhost:8001/Students/${id}`; //${registrationNumber}
     event.preventDefault();
     // Send data to the server
     fetch(updateAPIURL, {
@@ -105,11 +112,11 @@ const RegisterForm = () => {
               <TextField
                 fullWidth
                 required
-                label="Card Number"
+                label="Registration Number"
                 variant="standard"
                 size="small"
-                value={id}
-                onChange={handleIdChange}
+                value={id} //{registrationNumber}
+                onChange={handleIdChange} //{handleRegistrationNumberChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

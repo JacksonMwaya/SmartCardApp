@@ -58,7 +58,8 @@ const RegisterForm = () => {
   const classes = useStyles();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [id, setId] = useState("");
+  const [id, setId] = useState("");  
+  //const [cardNo, setCardNo] = useState(""); 
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [programme, setProgramme] = useState("");
   const [gender, setGender] = useState("male");
@@ -69,7 +70,8 @@ const RegisterForm = () => {
   const clearForm = () => {
     setFirstName("");
     setLastName("");
-    setId("");
+    setId(""); 
+    //setCardNo("");
     setRegistrationNumber("");
     setProgramme("");
     setGender("");
@@ -105,7 +107,10 @@ const RegisterForm = () => {
 
   const handleIdChange = (event) => {
     setId(event.target.value);
-  };
+  }; 
+/*  const handleCardNoChange = (event) => {
+    setId(event.target.value);
+  };*/
 
   const handleRegistrationNumberChange = (event) => {
     setRegistrationNumber(event.target.value);
@@ -127,7 +132,8 @@ const RegisterForm = () => {
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        id: id,
+        id: id, 
+       //cardNo: cardNo,
         registrationNumber: registrationNumber,
         programme: programme,
         year: year,
@@ -161,8 +167,8 @@ const RegisterForm = () => {
                 label="Card Number"
                 variant="standard"
                 size="small"
-                value={id}
-                onChange={handleIdChange}
+                value={id} // {cardNo}
+                onChange={handleIdChange} // {handleCardNoChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

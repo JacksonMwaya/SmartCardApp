@@ -14,7 +14,8 @@ const Register = () => {
     email: "",
     phoneNo: "",
     deptCode: "",
-    password: "",
+    password: "", 
+    //lecturer_id: "",
     id: "",
   });
 
@@ -26,7 +27,7 @@ const Register = () => {
     });
   };
   const checkIfLecturerExists = (id) => {
-    const apiUrl = `http://localhost:8000/Lecturers?id=${formData.id}`;
+    const apiUrl = `http://localhost:8000/Lecturers?id=${formData.id}`; //lecturer_id=${formData.lecturer_id}
     return fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -49,7 +50,7 @@ const Register = () => {
       headers: headers,
       body: JSON.stringify(formData),
     })
-      .then(checkIfLecturerExists(formData.id))
+      .then(checkIfLecturerExists(formData.id)) //formData.lecturer_id
       .then((response) => {
         if (!response.ok) {
           alert("This lecture exists");
@@ -125,10 +126,10 @@ const Register = () => {
           <label htmlFor="Lecture ID">Lecture ID:</label>
           <input
             type="text"
-            id="id"
-            name="id"
-            value={formData.id}
-            onChange={handleInputChange}
+            id="id" //"lecturer_id"
+            name="id" //"lecturer_id"
+            value={formData.id} //{formData.lecturer_id}
+            onChange={handleInputChange} //{handleInputChange}
             required
           />
 
