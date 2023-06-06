@@ -124,7 +124,7 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = (event) => {
-    const registerAPIURL = "http://localhost:8001/Students";
+    const registerAPIURL = "http://localhost:8001/Students"; //change api
     event.preventDefault();
     // Send data to the server
     fetch(registerAPIURL, {

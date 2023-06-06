@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 const SideNav = () => {
   const navigate = useNavigate();
   const classes = useStyles();
-  const [isAuthenticated, setIsAuthenticated] = useState("Yes");
   const [selectedPage, setSelectedPage] = useState("Home");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -70,14 +69,12 @@ const SideNav = () => {
     if (page === "Login") {
       handleLogout();
     } else {
-      setIsAuthenticated("Yes");
       setSelectedPage(page);
       navigate("/" + page);
     }
   };
 
   const handleLogout = () => {
-    setIsAuthenticated("No");
     setSelectedPage("Login");
     navigate("/Login"); 
     navigate("/Login"); 
@@ -89,18 +86,28 @@ const SideNav = () => {
     navigate("/Login"); 
     navigate("/Login"); 
     navigate("/Login");
-  };
+  }; 
+  /*const handleLogout = async () => {
+    try {
+      // Send a request to the backend to destroy the session
+      const response = await fetch('/logout.php', { //add proper path then logout.php
+        method: 'POST',
+        credentials: 'include',
+      });
 
-  useEffect(() => {
-    const handlePopstate = () => {
-      if (isAuthenticated === "No") {
-        window.history.pushState(null, "", "/Login");
-        navigate("/Login");
+      if (response.ok) {
+        // Session destroyed successfully, navigate to the login page
+        navigate('/login');
+      } else {
+        // Handle error response from the backend
+        const data = await response.json();
+        console.error(data.message);
       }
-    };
-    window.addEventListener("popstate", handlePopstate);
-    return () => window.removeEventListener("popstate", handlePopstate);
-  }, [isAuthenticated, navigate]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+*/
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
