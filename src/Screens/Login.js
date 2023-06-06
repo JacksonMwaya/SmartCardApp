@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "../Components/Css/Login.css";
 import pic from "../Resources/Images/UDSM-logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"; 
-
+import { useState } from "react";  
+import { useEffect } from "react";
 
 
 const Login = () => {
@@ -46,7 +46,30 @@ const Login = () => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }; 
+
+  useEffect(() => {
+    // Perform an API request to check the user's authentication status
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch('/login.php', { //modify path
+          method: 'GET',
+          credentials: 'include',
+        });
+        const data = await response.json();
+
+        if (data.status === 'error') {
+          // User is not logged in, redirect to the login page
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    checkAuthStatus();
+  }, [navigate]);
+
 
   return (
     <>

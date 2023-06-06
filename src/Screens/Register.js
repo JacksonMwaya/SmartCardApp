@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Components/Css/Register.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 //remember to change id to lectId
 
@@ -66,7 +66,7 @@ const Register = () => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }; 
 
   return (
     <>
