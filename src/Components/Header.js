@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ lecturerId }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -73,7 +73,7 @@ const Header = () => {
                 STUDENT EXAMINATION DATA CARD SYSTEM
               </Typography>
               <div className={classes.user}>
-                <Typography variant="subtitle1">Staff ID: 1001</Typography>
+                <Typography variant="subtitle1">Staff ID: {lecturerId}</Typography>
                 <IconButton
                   color="inherit"
                   onClick={() => handlePageChange("Home")}

@@ -4,16 +4,16 @@ import "../Components/Css/Login.css";
 import pic from "../Resources/Images/UDSM-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";  
-import { useEffect } from "react";
 
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    id: "", 
-    //lecturer_id: "",
+    lecturer_id: "",
     password: "",
-  });
+  }); 
+
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -25,65 +25,46 @@ const Login = () => {
   //remember to change id to lectId
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginAPIURL = `http://localhost:8000/Lecturers?id=${formData.id}&password=${formData.password}`; //?lecturer_id = ${formData.lecture_id}&password=${formData.password}
-    fetch(loginAPIURL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.length > 0) { 
-          navigate("/Home");
-        } else {
-          alert("Lecture ID or Password is Incorrect!!");
-        }
-        // do something with the response data, such as setting it to a state
-        // or redirecting to another page
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }; 
-
-  useEffect(() => {
-    // Perform an API request to check the user's authentication status
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch('/login.php', { //modify path
-          method: 'GET',
-          credentials: 'include',
+    const loginAPIURL = `http://localhost:8080/smartcardapp-api/login.php`; 
+    fetch(loginAPIURL, {
+      method: "POST",
+      headers: { 
+        'Accept':'application/json',
+        "Content-Type": "application/json"
+      }, 
+      body: JSON.stringify(formData)  
+    }) 
+    .then((response) => {
+      if (response.status === 401) {
+        return response.json().then((data) => {
+          const errorMessage = data.message; // Assuming the error message is returned in the response JSON
+          setErrorMessage(errorMessage); 
+          console(response.status);
         });
-        const data = await response.json();
-
-        if (data.status === 'error') {
-          // User is not logged in, redirect to the login page
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error(error);
+      } if  (response.status === 200){
+        navigate("/Home") ;
       }
-    };
-
-    checkAuthStatus();
-  }, [navigate]);
+    })
+      .catch((error) => {
+        console.error("Error:", error);
+      }); 
+}; 
 
 
   return (
     <>
       <div className="login-box">
-        <img src={pic} alt="How are you" className="udsm-logo" />
-        <h1 className="login-title">Login to SEDCS</h1>
+        <img src={pic} alt="udsm-logo" className="udsm-logo" />
+        <h1 className="login-title">Login to SEDCS</h1> 
+        <div className="error-message">{errorMessage}</div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="lectId">Lecture ID:</label>
           <input
             type="text"
-            id="id" //"lecturer_id"
-            name="id" //"lecturer_id"
-            value={formData.id} //{formData.lecturer_id}
-            onChange={handleInputChange} //{handleInputChange}
+            id="lecturer_id"
+            name="lecturer_id"
+            value={formData.lecturer_id}
+            onChange={handleInputChange} 
             required
           />
           <label htmlFor="password">Password:</label>

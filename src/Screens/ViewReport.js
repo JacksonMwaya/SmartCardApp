@@ -2,12 +2,10 @@ import React from 'react'
 import SideNav from '../Components/SideNav' 
 import Footer from '../Components/Footer' 
 import Header from '../Components/Header' 
-import { useNavigate } from "react-router-dom"; 
 import { useEffect } from "react";
 
 export default function ViewReport() {   
-  const navigate = useNavigate();  
-  
+
   useEffect(() => {
     // Perform an API request to check the user's authentication status
     const checkAuthStatus = async () => {
@@ -20,19 +18,15 @@ export default function ViewReport() {
 
         if (data.message === 'User not logged in') {
           // User is not logged in, redirect to the login page
-          navigate('/login');
+          window.history.href('/login');
         } 
-        if (data.message === 'User not logged in') {
-          // User is not logged in, redirect to the login page
-          navigate('/');
-        }
       } catch (error) {
         console.error(error);
       }
     };
 
     checkAuthStatus();
-  }, [navigate]); 
+  }, []); 
 
   return (
     <div> 

@@ -3,30 +3,31 @@ import Header from '../Components/Header'
 import SideNav from '../Components/SideNav' 
 import UpdateForm from '../Components/UpdateForm' 
 import Footer from '../Components/Footer' 
-import { useNavigate } from "react-router-dom"; 
 import { useEffect } from "react";
 
 export default function  UpdatePage() { 
 
-  const navigate = useNavigate();  
   
   useEffect(() => {
     // Perform an API request to check the user's authentication status
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch('/updateStudent.php', { //modify path
-          method: 'GET',
-          credentials: 'include',
+        const response = await fetch('http://localhost:8080/smartcardapp-api/auth.php', { //modify path
+          method: 'GET', 
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          }
         });
         const data = await response.json();
 
         if (data.message === 'User not logged in') {
           // User is not logged in, redirect to the login page
-          navigate('/login');
+          window.history.href('/login');
         } 
         if (data.message === 'Unauthorized access') {
           // only admin can access this page
-          navigate('/Teachers/Home2');
+          window.history.href('/Teachers/Home2');
         } 
 
       } catch (error) {
@@ -35,7 +36,7 @@ export default function  UpdatePage() {
     };
 
     checkAuthStatus();
-  }, [navigate]); 
+  }, []); 
 
   return (
     <div>  

@@ -52,13 +52,13 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = () => {
   const classes = useStyles();
-  const [id, setId] = useState(""); 
-  //const [registrationNumber, setRegistrationNumber] = useState("");
+  //const [id, setId] = useState(""); 
+  const [registrationNumber, setRegistrationNumber] = useState("");
   const [semester2paid, setSemester2Paid] = useState(0);
 
   const clearForm = () => { 
-    //setRegistrationNumber("");
-    setId("");
+    setRegistrationNumber("");
+    //setId("");
     setSemester2Paid(false);
   };
 
@@ -68,25 +68,27 @@ const RegisterForm = () => {
     setSemester2Paid(bitValue);
   };
 
-  const handleIdChange = (event) => {
+ /* const handleIdChange = (event) => {
     setId(event.target.value);
-  };  
+  }; */ 
 
-  /*const handleRegistrationNumberChange = (event) => {
+  const handleRegistrationNumberChange = (event) => {
     setRegistrationNumber(event.target.value);
-  }; */
+  };
  
 
   const handleUpdate = (event) => {
-    const updateAPIURL = `http://localhost:8001/Students/${id}`; //${registrationNumber}
+    const updateAPIURL = `http://localhost:8080/smartcardapp-api/updateStudent.php/${registrationNumber}`;
     event.preventDefault();
     // Send data to the server
     fetch(updateAPIURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        'Accept':'application/json',
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
+      body: JSON.stringify({ 
+        registrationNumber: registrationNumber,
         semester2paid: semester2paid,
       }),
     })
@@ -115,8 +117,8 @@ const RegisterForm = () => {
                 label="Registration Number"
                 variant="standard"
                 size="small"
-                value={id} //{registrationNumber}
-                onChange={handleIdChange} //{handleRegistrationNumberChange}
+                value={registrationNumber}
+                onChange={handleRegistrationNumberChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -58,22 +58,23 @@ const RegisterForm = () => {
   const classes = useStyles();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [id, setId] = useState("");  
-  //const [cardNo, setCardNo] = useState(""); 
+  const [id, setId] = useState("");
+  //const [cardNo, setCardNo] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
-  const [programme, setProgramme] = useState(""); 
-  const [college, setCollege] = useState(""); 
-  const [gender, setGender] = useState("male");
-  const [year, setYear] = useState("1");
-  const [semester1paid, setSemester1Paid] = useState(0);
-  const [semester2paid, setSemester2Paid] = useState(0);
+  const [programme, setProgramme] = useState("");
+  const [college, setCollege] = useState("");
+  const [gender, setGender] = useState(" ");
+  const [year, setYear] = useState(" ");
+  const [semester1paid, setSemester1Paid] = useState(0 );
+  const [semester2paid, setSemester2Paid] = useState(0 );
 
   const clearForm = () => {
     setFirstName("");
     setLastName("");
-    setId(""); 
+    setId("");
     //setCardNo("");
     setRegistrationNumber("");
+    setCollege("");
     setProgramme("");
     setGender("");
     setYear("");
@@ -82,7 +83,7 @@ const RegisterForm = () => {
   };
   const handleYearChange = (event) => {
     setYear(event.target.value);
-  }; 
+  };
   const handleCollegeChange = (event) => {
     setCollege(event.target.value);
   };
@@ -111,8 +112,8 @@ const RegisterForm = () => {
 
   const handleIdChange = (event) => {
     setId(event.target.value);
-  }; 
-/*  const handleCardNoChange = (event) => {
+  };
+  /*  const handleCardNoChange = (event) => {
     setId(event.target.value);
   };*/
 
@@ -124,28 +125,32 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = (event) => {
-    const registerAPIURL = "http://localhost:8001/Students"; //change api
+    const registerAPIURL =
+      "http://localhost:8080/smartcardapp-api/registerStudent.php"; //change api
     event.preventDefault();
     // Send data to the server
     fetch(registerAPIURL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { 
+        'Accept':'application/json',
+        "Content-Type": "application/json"
+      }, 
+      //mode: "same-origin",
+      //mode: "no-cors" ,
       //remember to change id to card number in the real database
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        id: id,  
-        college:college,
-       //cardNo: cardNo,
+        cardNo: id,
+        college: college,
+        //cardNo: cardNo,
         registrationNumber: registrationNumber,
         programme: programme,
         year: year,
         gender: gender,
         semester1paid: semester1paid,
         semester2paid: semester2paid,
-      }),
+      })
     })
       .then((response) => response.json())
       .then((data) => {
@@ -208,7 +213,7 @@ const RegisterForm = () => {
                 value={registrationNumber}
                 onChange={handleRegistrationNumberChange}
               />
-            </Grid> 
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth

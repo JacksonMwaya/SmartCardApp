@@ -1,4 +1,7 @@
-import React from "react";
+import React from "react"; 
+import { useEffect  } from "react";  
+import { useState } from "react";
+
 import {
   makeStyles,
   Grid,
@@ -41,47 +44,87 @@ const useStyles = makeStyles((theme) => ({
 const cardData = [
   {
     title: "Total Number of Teachers",
-    description: "Total Number of teachers in the system.",
+    description: "Total Number of teachers in the system.", 
+    value: 0,
   },
   {
     title: "Total Number of Students",
-    description: "Total Number of registered student",
+    description: "Total Number of registered student",  
+    value: 0,
+
   },
   {
     title: "Profile",
-    description: "Description of the User",
+    description: "Description of the User", 
+    value: "",
   },
 ];
 
-const Dashboard = () => {
+const Dashboard = ({ setLecturerId }) => {  
+
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(() => {
+    // Perform an API request to check the user's authentication status
+    const getInfo = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/smartcardapp-api/home.php",
+          {
+            //modify path
+            method: "GET",
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          }
+        );
+        const data = await response.json(); 
+        // Update the cardData values with the fetched data 
+        cardData[0].value = data.summary.total_lecturers;
+        cardData[1].value = data.summary.total_students;
+        cardData[2].value =  Object.entries(data.user)
+        .map(([key, value]) => `${key} : ${value}`)
+        .join("   \n ");
+
+        const lecturerId = `${data.user['Lecturer ID']}`;
+        // Example lecturer ID
+        setLecturerId(lecturerId);
+        
+        setDataLoaded(true); // Set dataLoaded to true
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getInfo();
+  }, [setLecturerId]);
+
   const classes = useStyles();
 
-  return (
+  return ( 
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        {/* Cards */}
-        {cardData.map((card, index) => (
+    <Grid container spacing={1}>
+      {/* Cards */}
+      {dataLoaded &&
+        cardData.map((card, index) => ( 
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {card.title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {card.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {card.title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="pre" style={{ fontSize: "20px" }}>
+                  {card.value}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
         ))}
-      </Grid>
-    </div>
+    </Grid>
+  </div>
+
   );
 };
 

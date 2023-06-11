@@ -2,22 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Components/Css/Register.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 //remember to change id to lectId
 
 const Register = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fName: "",
     lName: "",
     email: "",
     phoneNo: "",
     deptCode: "",
-    password: "", 
-    //lecturer_id: "",
-    id: "",
+    password: "",
+    lecturer_id: "",
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -26,21 +27,11 @@ const Register = () => {
       [name]: value,
     });
   };
-  const checkIfLecturerExists = (id) => {
-    const apiUrl = `http://localhost:8000/Lecturers?id=${formData.id}`; //lecturer_id=${formData.lecturer_id}
-    return fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        return data.length > 0;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const registerAPIURL = "http://localhost:8000/Lecturers";
+    const registerAPIURL =
+      "http://localhost:8080/smartcardapp-api/register.php";
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -50,29 +41,29 @@ const Register = () => {
       headers: headers,
       body: JSON.stringify(formData),
     })
-      .then(checkIfLecturerExists(formData.id)) //formData.lecturer_id
       .then((response) => {
-        if (!response.ok) {
-          alert("This lecture exists");
-          throw new Error("Network response was not ok");
-        } else {
+        if (response.status === 401) {
+          return response.json().then((data) => {
+            const errorMessage = data.message; // Assuming the error message is returned in the response JSON
+            setErrorMessage(errorMessage);
+            console(response.status);
+          });
+        }
+        if (response.status === 200) {
           navigate("/Login");
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error:", error);
       });
-  }; 
+  };
 
   return (
     <>
       <div className="registration-box">
         <form onSubmit={handleSubmit}>
           <h1 className="register-title">Register to SEDCS</h1>
+          <div className="error-message">{errorMessage}</div>
           <label htmlFor="firstName">First Name:</label>
           <input
             type="text"
@@ -126,10 +117,10 @@ const Register = () => {
           <label htmlFor="Lecture ID">Lecture ID:</label>
           <input
             type="text"
-            id="id" //"lecturer_id"
-            name="id" //"lecturer_id"
-            value={formData.id} //{formData.lecturer_id}
-            onChange={handleInputChange} //{handleInputChange}
+            id="lecturer_id"
+            name="lecturer_id"
+            value={formData.lecturer_id}
+            onChange={handleInputChange}
             required
           />
 
