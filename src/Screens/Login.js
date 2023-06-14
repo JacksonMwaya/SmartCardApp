@@ -13,8 +13,6 @@ const Login = () => {
     password: "",
   }); 
 
-  const [errorMessage, setErrorMessage] = useState(""); 
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -25,30 +23,40 @@ const Login = () => {
   //remember to change id to lectId
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginAPIURL = `http://localhost:8080/smartcardapp-api/login.php`; 
-    fetch(loginAPIURL, {
-      method: "POST",
-      headers: { 
-        'Accept':'application/json',
-        "Content-Type": "application/json"
-      }, 
-      body: JSON.stringify(formData)  
-    }) 
-    .then((response) => {
-      if (response.status === 401) {
-        return response.json().then((data) => {
-          const errorMessage = data.message; // Assuming the error message is returned in the response JSON
-          setErrorMessage(errorMessage); 
-          console(response.status);
-        });
-      } if  (response.status === 200){
-        navigate("/Home") ;
+    const loginAPIURL = `http://localhost:8080/smartcardapp-api/login.php`;   
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",  
+    };
+
+    const loginFunction = async () => {
+      try {
+        const response = await fetch(loginAPIURL, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(formData),  
+          credentials: "include"
+        }, 
+        );
+        const data = await response.json();
+
+        if (data.status === 401) {
+          alert(data.message);
+          navigate("/Login");
+        }
+        if (data.status === 200) {
+          navigate("/Home");
+        }   
+        if (data.status === 202) {
+          navigate("/Teachers/Home2");
+        }
+      } catch (error) {
+        console.log.error(error);
       }
-    })
-      .catch((error) => {
-        console.error("Error:", error);
-      }); 
-}; 
+    };
+    loginFunction();
+  };
+   
 
 
   return (
@@ -56,7 +64,6 @@ const Login = () => {
       <div className="login-box">
         <img src={pic} alt="udsm-logo" className="udsm-logo" />
         <h1 className="login-title">Login to SEDCS</h1> 
-        <div className="error-message">{errorMessage}</div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="lectId">Lecture ID:</label>
           <input

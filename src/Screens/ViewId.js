@@ -17,9 +17,13 @@ export default function ViewId() {
         });
         const data = await response.json();
 
-        if (data.message === 'User not logged in') {
+        if (data.status ===401) {
           // User is not logged in, redirect to the login page
-          window.history.href('/login');
+          window.location.href = "/Login";
+        } 
+        if (data.status ===200) {
+          // User is not logged in, redirect to the login page
+          window.location.href = "/ViewId";
         }
       } catch (error) {
         console.error(error);

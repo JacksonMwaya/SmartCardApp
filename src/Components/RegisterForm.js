@@ -150,7 +150,7 @@ const RegisterForm = () => {
         gender: gender,
         semester1paid: semester1paid,
         semester2paid: semester2paid,
-      })
+      })  
     })
       .then((response) => response.json())
       .then((data) => {
@@ -218,7 +218,7 @@ const RegisterForm = () => {
               <TextField
                 fullWidth
                 required
-                label="College"
+                label="College *COICT, SJMC"
                 variant="standard"
                 size="small"
                 value={college}

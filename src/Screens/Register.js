@@ -17,7 +17,6 @@ const Register = () => {
     lecturer_id: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -34,28 +33,31 @@ const Register = () => {
       "http://localhost:8080/smartcardapp-api/register.php";
     const headers = {
       Accept: "application/json",
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", 
     };
-    fetch(registerAPIURL, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          return response.json().then((data) => {
-            const errorMessage = data.message; // Assuming the error message is returned in the response JSON
-            setErrorMessage(errorMessage);
-            console(response.status);
-          });
+
+    const registerFunction = async () => {
+      try {
+        const response = await fetch(registerAPIURL, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(formData),
+        });
+        const data = await response.json();
+
+        if (data.status === 400) {
+          alert(data.message);
+          navigate("/Register");
         }
-        if (response.status === 200) {
+        if (data.status === 200) {
           navigate("/Login");
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      } catch (error) {
+        console.log.error(error);
+      }
+    };
+    registerFunction();
+    
   };
 
   return (
@@ -63,7 +65,7 @@ const Register = () => {
       <div className="registration-box">
         <form onSubmit={handleSubmit}>
           <h1 className="register-title">Register to SEDCS</h1>
-          <div className="error-message">{errorMessage}</div>
+
           <label htmlFor="firstName">First Name:</label>
           <input
             type="text"
@@ -104,7 +106,7 @@ const Register = () => {
             required
           />
 
-          <label htmlFor="Department Code">Department Code:</label>
+          <label htmlFor="Department Code">Department Code *CSE, ETE:</label>
           <input
             type="text"
             id="deptCode"
@@ -133,7 +135,7 @@ const Register = () => {
             onChange={handleInputChange}
             required
           />
-          <button type="submit" className="submit">
+          <button type="submit" className="submit" onClick={handleSubmit}>
             Register
           </button>
           <button className="link-button">

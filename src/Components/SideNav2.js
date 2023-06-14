@@ -71,7 +71,7 @@ const SideNav2 = () => {
       navigate("/Teachers/" + page);
     }
   };
-
+/*
   const handleLogout = () => {
     setSelectedPage("Login");
     navigate("/Login"); 
@@ -84,28 +84,28 @@ const SideNav2 = () => {
     navigate("/Login"); 
     navigate("/Login"); 
     navigate("/Login");
-  }; 
-  /*const handleLogout = async () => {
+  };  
+  */
+  const handleLogout = async () => {
     try {
       // Send a request to the backend to destroy the session
-      const response = await fetch('/logout.php', { //add proper path then logout.php
+      const response = await fetch('http://localhost:8080/smartcardapp-api/logout.php', { //add proper path then logout.php
         method: 'POST',
-        credentials: 'include',
-      });
+        Accept: "application/json",
+        "Content-Type": "application/json", 
+        credentials: "include",
+      }); 
+      const data = await response.json();
 
-      if (response.ok) {
-        // Session destroyed successfully, navigate to the login page
-        navigate('/login');
-      } else {
-        // Handle error response from the backend
-        const data = await response.json();
-        console.error(data.message);
+      if (data.status ===200) {
+        // User is not logged in, redirect to the login page 
+        navigate("/Login");
+      //window.location.href = "/Home";
       }
     } catch (error) {
       console.error(error);
     }
   };
-*/
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));

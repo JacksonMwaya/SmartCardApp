@@ -4,9 +4,12 @@ import SideNav from "../Components/SideNav";
 import Header from "../Components/Header";
 import Dashboard from "../Components/Dashboard";
 import { useEffect } from "react"; 
-import { useState } from "react";
+import { useState } from "react"; 
+import { useNavigate } from "react-router";
 
-export default function Home() { 
+export default function Home() {  
+
+  const navigate = useNavigate();
 
   const [lecturerId, setLecturerId] = useState(""); 
 
@@ -20,18 +23,23 @@ export default function Home() {
             //modify path
             method: "GET",
             Accept: "application/json",
-            "Content-Type": "application/json",
-          }
+            "Content-Type": "application/json", 
+            credentials: "include",
+          }, 
         );
         const data = await response.json();
 
-        if (data.message === "User not logged in") {
-          // User is not logged in, redirect to the login page
-          window.history.href("/login");
-        }
-        if (data.message === "Unauthorized access") {
+        if (data.status ===401) {
+          navigate("/Login");
+        }  
+        if (data.status === 404) {
           // only admin can access this page
-          window.history.href("/Teachers/Home2");
+          navigate("/Teachers/Home2");
+        }
+        if (data.status ===200) {
+          // User is not logged in, redirect to the login page 
+          navigate("/Home");
+        //window.location.href = "/Home";
         }
       } catch (error) {
         console.error(error);
@@ -39,7 +47,7 @@ export default function Home() {
     };
 
     checkAuthStatus();
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

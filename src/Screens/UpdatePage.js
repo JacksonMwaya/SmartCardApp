@@ -3,10 +3,12 @@ import Header from '../Components/Header'
 import SideNav from '../Components/SideNav' 
 import UpdateForm from '../Components/UpdateForm' 
 import Footer from '../Components/Footer' 
-import { useEffect } from "react";
+import { useEffect } from "react"; 
+import { useNavigate } from 'react-router'
 
 export default function  UpdatePage() { 
 
+  const navigate = useNavigate();
   
   useEffect(() => {
     // Perform an API request to check the user's authentication status
@@ -16,18 +18,19 @@ export default function  UpdatePage() {
           method: 'GET', 
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
-          }
+            "Content-Type": "application/json", 
+          }, 
+          credentials: "include"
         });
         const data = await response.json();
 
-        if (data.message === 'User not logged in') {
+        if (data.status ===401) {
           // User is not logged in, redirect to the login page
-          window.history.href('/login');
+          navigate("/Login");
         } 
-        if (data.message === 'Unauthorized access') {
+        if (data.status === 404) {
           // only admin can access this page
-          window.history.href('/Teachers/Home2');
+          navigate("/Teachers/Home2");
         } 
 
       } catch (error) {
@@ -36,7 +39,7 @@ export default function  UpdatePage() {
     };
 
     checkAuthStatus();
-  }, []); 
+  }, [navigate]); 
 
   return (
     <div>  

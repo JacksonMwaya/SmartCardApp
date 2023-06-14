@@ -74,7 +74,8 @@ const Dashboard = ({ setLecturerId }) => {
             //modify path
             method: "GET",
             Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", 
+            credentials: "include",
           }
         );
         const data = await response.json(); 
@@ -96,7 +97,8 @@ const Dashboard = ({ setLecturerId }) => {
       }
     };
 
-    getInfo();
+    getInfo(); 
+    setDataLoaded(false);
   }, [setLecturerId]);
 
   const classes = useStyles();
