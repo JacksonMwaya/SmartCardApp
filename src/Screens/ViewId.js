@@ -2,36 +2,41 @@ import React from "react";
 import SideNav from "../Components/SideNav";
 import Footer from "../Components/Footer"; 
 import Header from '../Components/Header' 
-import { useEffect } from "react";
+import { useEffect } from "react"; 
+import { useNavigate } from "react-router";
 
 export default function ViewId() {  
 
   
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     // Perform an API request to check the user's authentication status
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch('/viewId.php', { //modify path
-          method: 'GET',
-          credentials: 'include',
-        });
+        const response = await fetch(
+          "http://localhost:8080/smartcardapp-api/auth.php",
+          {
+            //modify path
+            method: "GET",
+            Accept: "application/json",
+            "Content-Type": "application/json", 
+            credentials: "include",
+          }, 
+        );
         const data = await response.json();
 
-        if (data.status ===401) {
-          // User is not logged in, redirect to the login page
-          window.location.href = "/Login";
-        } 
-        if (data.status ===200) {
-          // User is not logged in, redirect to the login page
-          window.location.href = "/ViewId";
-        }
+        if (data.status === 401) {
+          navigate("/Login");
+        }   
       } catch (error) {
         console.error(error);
       }
     };
 
     checkAuthStatus();
-  }, []); 
+  }, [navigate]);
   return (
     <div>
       <SideNav /> 

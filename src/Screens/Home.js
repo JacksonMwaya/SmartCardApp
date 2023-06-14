@@ -29,7 +29,7 @@ export default function Home() {
         );
         const data = await response.json();
 
-        if (data.status ===401) {
+        if (data.status ===401) { 
           navigate("/Login");
         }  
         if (data.status === 404) {
@@ -39,7 +39,6 @@ export default function Home() {
         if (data.status ===200) {
           // User is not logged in, redirect to the login page 
           navigate("/Home");
-        //window.location.href = "/Home";
         }
       } catch (error) {
         console.error(error);
