@@ -4,6 +4,8 @@ import SideNav2 from '../../Components/SideNav2'
 import Header from '../../Components/Header' 
 import { useEffect } from "react"; 
 import { useNavigate } from "react-router";
+import IdCard from "../../Components/IdCard";
+import DeviceOption from "../../Components/DeviceOption";
 
 
 
@@ -17,7 +19,7 @@ export default function ViewId2() {
     const checkAuthStatus = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/smartcardapp-api/auth.php",
+          "http://localhost:8080/smartcardapp-api/auth2.php",
           {
             //modify path
             method: "GET",
@@ -42,7 +44,9 @@ export default function ViewId2() {
   return (
     <div>
       <SideNav2 /> 
-      <Header />
+      <Header />  
+      <DeviceOption />
+      <IdCard />
       <Footer />
     </div>
   );
