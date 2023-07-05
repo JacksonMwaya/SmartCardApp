@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     display: "block",
     width: "100%",
-    padding: 10,
+    padding: 10,  
+    margin : 10,
     fontSize: 16,
     backgroundColor: "#007bff",
     color: "#fff",
@@ -61,7 +62,10 @@ const useStyles = makeStyles((theme) => ({
 
 const IdCard = () => {
   const [studentData, setStudentData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const [cardId, setCardId] = useState(''); 
+  const [deviceName, setDeviceName] = useState('');
   const classes = useStyles();
 
   const fetchStudentData = async () => {
@@ -69,12 +73,24 @@ const IdCard = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/smartcardapp-api/viewId.php"
-      );
+        "http://192.168.43.109:8080/smartcardapp-api/viewId.php", 
+        {
+          method: "POST",
+          headers: { 
+            'Accept':'application/json',
+            "Content-Type": "application/json"
+          },  
+          credentials: "include", 
+          body: JSON.stringify({
+            cardId: cardId,
+            deviceName: deviceName,
+          })  
+        });
       if (response.status === 200) {
         const data = await response.json();
         data.student["img_dir"] = decodeURIComponent(data.student["img_dir"]);
-        setStudentData(data.student);
+        setStudentData(data.student); 
+        setCardId(""); 
       } else {
         console.error("Failed to fetch student data.");
       }
@@ -83,11 +99,36 @@ const IdCard = () => {
     } finally {
       setIsLoading(false);
     }
+  }; 
+
+  const fetchDeviceData = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.43.80:80/GetData" 
+        );
+      if (response.status === 200) {
+        const device = await response.json();
+        setCardId(device["cardData"]); 
+        setDeviceName(device["deviceName"]);
+       
+      } else {
+        console.error("Failed to get student data from device.");
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching student data:", error);
+    } 
   };
 
   return (
     <div className={classes.formContainer}>
-      <Paper className={classes.form}>
+      <Paper className={classes.form}>  
+      <button
+          type="submit"
+          onClick={fetchDeviceData}
+          className={classes.submitButton}
+        >
+          Get Student Details
+        </button>
         <button
           type="submit"
           onClick={fetchStudentData}

@@ -14,7 +14,7 @@ export default function  UpdatePage() {
     // Perform an API request to check the user's authentication status
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch('http://localhost:8080/smartcardapp-api/auth.php', { //modify path
+        const response = await fetch('http://192.168.43.109:8080/smartcardapp-api/auth.php', { //modify path
           method: 'GET', 
           headers: {
             Accept: "application/json",

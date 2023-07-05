@@ -60,7 +60,7 @@ export default function ReportTable() {
     // Fetch table data from the backend API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/smartcardapp-api/viewReport.php', {
+        const response = await fetch('http://192.168.43.109:8080/smartcardapp-api/viewReport.php', {
           // modify path
           method: 'GET',
           credentials: 'include',
@@ -74,7 +74,7 @@ export default function ReportTable() {
           navigate('/Login');
         }
         if (data.status === 404) {
-          alert(data.message);
+          //alert(data.message);
         }
       } catch (error) {
         console.error(error);

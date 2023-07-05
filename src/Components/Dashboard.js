@@ -69,7 +69,7 @@ const Dashboard = ({ setLecturerId }) => {
     const getInfo = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/smartcardapp-api/home.php",
+          "http://192.168.43.109:8080/smartcardapp-api/home.php",
           {
             //modify path
             method: "GET",

@@ -91,7 +91,7 @@ const SideNav = () => {
   const handleLogout = async () => {
     try {
       // Send a request to the backend to destroy the session
-      const response = await fetch('http://localhost:8080/smartcardapp-api/logout.php', { //add proper path then logout.php
+      const response = await fetch('http://192.168.43.109:8080/smartcardapp-api/logout.php', { //add proper path then logout.php
         method: 'POST',
         Accept: "application/json",
         "Content-Type": "application/json", 

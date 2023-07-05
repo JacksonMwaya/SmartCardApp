@@ -78,7 +78,7 @@ const RegisterForm = () => {
  
 
   const handleUpdate = (event) => {
-    const updateAPIURL = `http://localhost:8080/smartcardapp-api/updateStudent.php/${registrationNumber}`;
+    const updateAPIURL = `http://192.168.43.109:8080/smartcardapp-api/updateStudent.php/${registrationNumber}`;
     event.preventDefault();
     // Send data to the server
     fetch(updateAPIURL, {

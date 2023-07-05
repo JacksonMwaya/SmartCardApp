@@ -19,7 +19,7 @@ export default function ViewId2() {
     const checkAuthStatus = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/smartcardapp-api/auth2.php",
+          "http://192.168.43.109:8080/smartcardapp-api/auth2.php",
           {
             //modify path
             method: "GET",

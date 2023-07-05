@@ -21,9 +21,9 @@
     "react-router": "^6.9.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
+  }, 
+  "scripts": { 
+    "start": "react-scripts start --host 192.168.100.212",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

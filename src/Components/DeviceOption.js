@@ -65,48 +65,30 @@ const DeviceOption = () => {
     e.preventDefault();
 
     try {
-      const data = await fetch(
-        "http://localhost:8080/smartcardapp-api/deviceOption.php",
+      const response = await fetch(
+        "http://192.168.43.109:8080/smartcardapp-api/deviceOption.php",
         {
           method: "POST",
-          headers: {
+          headers: { 
+            'Accept':'application/json',
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ deviceOption }),
+          body: JSON.stringify({
+            deviceOption: deviceOption,
+          }),
         }
       );
-
-      if (data.status === 200) {
-        const session = data.session;
-        try {
-          const data = await fetch("http://ipaddress/SessionId", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ session }),
-          });
-
-          if (data.status === 200) {
-            // Card number stored in session successfully
-            console.log("session id sent to node mcu.");
-          } else {
-            console.error("Failed to send session id.");
-          }
-        } catch (error) {
-          console.error(
-            "An error occurred while sending the session id:",
-            error
-          );
-        }
-        // Card number stored in session successfully
+      const data = await response.json(); 
+      if (data.status === 200) { 
+        alert(data.message);
+        // Device option stored in session successfully
         console.log("Device option stored in session.");
       } else {
-        console.error("Failed to store device name in session.");
+        console.error("Failed to store device option in session.");
       }
     } catch (error) {
-      console.error("An error occurred while storing device name:", error);
+      console.error("An error occurred while storing device option:", error);
     }
   };
 

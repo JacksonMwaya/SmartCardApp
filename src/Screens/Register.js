@@ -30,7 +30,7 @@ const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const registerAPIURL =
-      "http://localhost:8080/smartcardapp-api/register.php";
+      "http://192.168.43.109:8080/smartcardapp-api/register.php";
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json", 

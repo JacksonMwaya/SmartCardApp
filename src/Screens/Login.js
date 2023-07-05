@@ -23,7 +23,7 @@ const Login = () => {
   //remember to change id to lectId
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginAPIURL = `http://localhost:8080/smartcardapp-api/login.php`;   
+    const loginAPIURL = `http://192.168.43.109:8080/smartcardapp-api/login.php`;   
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",  
