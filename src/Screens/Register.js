@@ -50,7 +50,7 @@ const Register = () => {
           navigate("/Register");
         }
         if (data.status === 200) {
-          navigate("/Login");
+          navigate("/");
         }
       } catch (error) {
         console.log.error(error);

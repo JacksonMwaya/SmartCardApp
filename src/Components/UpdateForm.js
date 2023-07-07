@@ -52,11 +52,11 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = () => {
   const classes = useStyles();
-  //const [id, setId] = useState(""); 
+  //const [id, setId] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [semester2paid, setSemester2Paid] = useState(0);
 
-  const clearForm = () => { 
+  const clearForm = () => {
     setRegistrationNumber("");
     //setId("");
     setSemester2Paid(false);
@@ -68,38 +68,45 @@ const RegisterForm = () => {
     setSemester2Paid(bitValue);
   };
 
- /* const handleIdChange = (event) => {
-    setId(event.target.value);
-  }; */ 
+  const validateRegistrationNumber = () => {
+    const value = registrationNumber;
+    const isValid = /^\d{11}$/.test(value); // Regex to check if the value is a 9-digit number
+    return isValid;
+  };
 
   const handleRegistrationNumberChange = (event) => {
     setRegistrationNumber(event.target.value);
   };
- 
 
   const handleUpdate = (event) => {
     const updateAPIURL = `http://192.168.43.109:8080/smartcardapp-api/updateStudent.php/${registrationNumber}`;
     event.preventDefault();
     // Send data to the server
-    fetch(updateAPIURL, {
-      method: "PUT",
-      headers: {
-        'Accept':'application/json',
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ 
-        registrationNumber: registrationNumber,
-        semester2paid: semester2paid,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    if (validateRegistrationNumber()) {
+      fetch(updateAPIURL, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          registrationNumber: registrationNumber,
+          semester2paid: semester2paid,
+        }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    clearForm();
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      clearForm();
+    } else {
+      alert("Incorrect Inputs");
+      clearForm();
+    }
   };
 
   return (

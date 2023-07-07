@@ -28,7 +28,7 @@ export default function ViewReport() {
         const data = await response.json();
 
         if (data.status === 401) {
-          navigate("/Login");
+          navigate("/");
         }
       } catch (error) {
         console.error(error);

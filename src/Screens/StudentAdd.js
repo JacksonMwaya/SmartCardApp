@@ -20,16 +20,15 @@ function StudentAdd() {
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json", 
-              
-            }, 
-            credentials: "include"
+              credentials: "include",
+            },    
           }
         );
         const data = await response.json();
 
         if (data.status === 401) {
           // User is not logged in, redirect to the login page
-          navigate("/Login");
+          navigate("/");
         }
         if (data.status === 404) {
           // only admin can access this page

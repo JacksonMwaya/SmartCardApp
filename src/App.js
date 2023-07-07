@@ -27,7 +27,6 @@ function App() {
         <Route path="/ViewReport" element={<ViewReport />} />
         <Route path="/UpdatePage" element={<UpdatePage />} />
         <Route path="/Home" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
         <Route path="/Teachers/Home2" element={<Home2 />} />
         <Route path="/Teachers/ViewId2" element={<ViewId2 />} />
         <Route path="/Teachers/ViewReport2" element={<ViewReport2 />} />

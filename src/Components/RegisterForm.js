@@ -65,8 +65,8 @@ const RegisterForm = () => {
   const [college, setCollege] = useState("");
   const [gender, setGender] = useState(" ");
   const [year, setYear] = useState(" ");
-  const [semester1paid, setSemester1Paid] = useState(0 );
-  const [semester2paid, setSemester2Paid] = useState(0 );
+  const [semester1paid, setSemester1Paid] = useState(0);
+  const [semester2paid, setSemester2Paid] = useState(0);
 
   const clearForm = () => {
     setFirstName("");
@@ -78,8 +78,8 @@ const RegisterForm = () => {
     setProgramme("");
     setGender("");
     setYear("");
-    setSemester1Paid("");
-    setSemester2Paid("");
+    setSemester1Paid(0);
+    setSemester2Paid(0);
   };
   const handleYearChange = (event) => {
     setYear(event.target.value);
@@ -113,9 +113,6 @@ const RegisterForm = () => {
   const handleIdChange = (event) => {
     setId(event.target.value);
   };
-  /*  const handleCardNoChange = (event) => {
-    setId(event.target.value);
-  };*/
 
   const handleRegistrationNumberChange = (event) => {
     setRegistrationNumber(event.target.value);
@@ -124,42 +121,56 @@ const RegisterForm = () => {
     setProgramme(event.target.value);
   };
 
+  const validateRegistrationNumber = () => {
+    const value = registrationNumber;
+    const isValid = /^\d{11}$/.test(value); // Regex to check if the value is a 9-digit number
+    return isValid;
+  };
+  const validateId = () => {
+    const value = id;
+    const maxSize = 8; // Maximum size of the string
+    const isValid = value.length <= maxSize;
+    return isValid;
+  };
   const handleSubmit = (event) => {
-    const registerAPIURL =
-      "http://192.168.43.109:8080/smartcardapp-api/registerStudent.php"; //change api
-    event.preventDefault();
-    // Send data to the server
-    fetch(registerAPIURL, {
-      method: "POST",
-      headers: { 
-        'Accept':'application/json',
-        "Content-Type": "application/json"
-      }, 
-      //mode: "same-origin",
-      //mode: "no-cors" ,
-      //remember to change id to card number in the real database
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        cardNo: id,
-        college: college,
-        //cardNo: cardNo,
-        registrationNumber: registrationNumber,
-        programme: programme,
-        year: year,
-        gender: gender,
-        semester1paid: semester1paid,
-        semester2paid: semester2paid,
-      })  
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    if (validateId() && validateRegistrationNumber()) {
+      // Submit the form or perform further actions
+      const registerAPIURL =
+        "http://192.168.43.109:8080/smartcardapp-api/registerStudent.php"; //change api
+      event.preventDefault();
+      // Send data to the server
+      fetch(registerAPIURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          cardNo: id,
+          college: college,
+          registrationNumber: registrationNumber,
+          programme: programme,
+          year: year,
+          gender: gender,
+          semester1paid: semester1paid,
+          semester2paid: semester2paid,
+        }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    clearForm();
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      clearForm();
+    } else {
+      alert("Incorrect Inputs");
+      clearForm();
+    }
   };
 
   return (

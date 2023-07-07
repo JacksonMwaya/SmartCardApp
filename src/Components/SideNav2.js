@@ -64,28 +64,14 @@ const SideNav2 = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handlePageChange = (page) => {
-    if (page === "Login") {
+    if (page === "/") {
       handleLogout();
     } else {
       setSelectedPage(page);
       navigate("/Teachers/" + page);
     }
   };
-/*
-  const handleLogout = () => {
-    setSelectedPage("Login");
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login"); 
-    navigate("/Login");
-  };  
-  */
+
   const handleLogout = async () => {
     try {
       // Send a request to the backend to destroy the session
@@ -99,7 +85,7 @@ const SideNav2 = () => {
 
       if (data.status ===200) {
         // User is not logged in, redirect to the login page 
-        navigate("/Login");
+        navigate("/");
       //window.location.href = "/Home";
       }
     } catch (error) {
@@ -168,7 +154,7 @@ const SideNav2 = () => {
       <List>
         <ListItem
           button
-          onClick={() => handlePageChange("Login")}
+          onClick={() => handlePageChange("/")}
           classes={{
             selected: classes.selected,
           }}

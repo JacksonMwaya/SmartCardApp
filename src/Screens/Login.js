@@ -42,7 +42,7 @@ const Login = () => {
 
         if (data.status === 401) {
           alert(data.message);
-          navigate("/Login");
+          navigate("/");
         }
         if (data.status === 200) {
           navigate("/Home");

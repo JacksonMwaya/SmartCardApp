@@ -30,7 +30,7 @@ export default function Home() {
         const data = await response.json();
 
         if (data.status === 401) { 
-          navigate("/Login");
+          navigate("/");
         }  
         if (data.status === 404) {
           // only admin can access this page
